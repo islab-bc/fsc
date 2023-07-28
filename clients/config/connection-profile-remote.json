@@ -1,0 +1,62 @@
+{
+  "name": "btp",
+  "version": "1.0",
+  "x-type": "hlfv2",
+  "description": "btp project",
+  "channels": {
+    "tester": {
+      "orderers": ["orderer0.example.com"],
+      "peers": ["peer0.btp.example.com"]
+    }
+  },
+  "organizations": {
+    "btp.example.com": {
+      "mspid": "btpMSP",
+      "adminPrivateKey": {
+        "path": "./config/priv_sk"
+      },
+      "peers": ["peer0.btp.example.com"],
+      "signedCert": {
+        "path": "./config/admin.pem"
+      }
+    }
+  },
+  "orderers": {
+    "orderer0.example.com": {
+      "url": "grpcs://10.0.3.212:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer0.example.com"
+      },
+      "tlsCACerts": {
+        "path": "./config/orderer.crt"
+      }
+    }
+  },
+  "peers": {
+    "peer0.btp.example.com": {
+      "url": "grpcs://10.0.3.212:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.btp.example.com"
+      },
+      "tlsCACerts": {
+        "path": "./config/peer.crt"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.btp.example.com": {
+      "url": "https://10.0.3.212:7054",
+      "httpOptions": {
+        "verify": false
+      },
+      "tlsCACerts": {
+        "path": "./config/ca.pem"
+      },
+      "caName": "ca.btp.example.com",
+      "registrar": {
+        "enrollID": "admin",
+        "enrollSecret": "adminpw"
+      }
+    }
+  }
+}
