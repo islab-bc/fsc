@@ -1,0 +1,10 @@
+{
+    "index": {
+        "fields": [
+            {"enrolled_time": "desc"}
+        ]
+    },
+    "ddoc": "indexAllBoardDoc",
+    "name": "indexAllBoard",
+    "type": "json"
+}

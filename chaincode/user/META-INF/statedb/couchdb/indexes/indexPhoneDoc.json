@@ -1,0 +1,11 @@
+{
+    "index": {
+        "fields": [
+            {"doctype":"desc"},
+            {"phone_number": "desc"}
+        ]
+    },
+    "ddoc": "indexPhoneDoc",
+    "name": "indexPhone",
+    "type": "json"
+}
