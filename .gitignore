@@ -1,0 +1,7 @@
+client/log/
+client/node_modules/
+client/wallet/
+client/.env
+client/package-lock.json
+client/key/
+network/blockchain/build/
