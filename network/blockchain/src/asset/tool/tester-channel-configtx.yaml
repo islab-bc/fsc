@@ -1,0 +1,76 @@
+Profiles:
+  tester-channelProfile:
+    Consortium: Example
+    Policies:
+      Readers:
+        Type: ImplicitMeta
+        Rule: ANY Readers
+      Writers:
+        Type: ImplicitMeta
+        Rule: ANY Writers
+      Admins:
+        Type: ImplicitMeta
+        Rule: MAJORITY Admins
+    Capabilities:
+      V2_0: true
+    Application:
+      ACLs:
+        _lifecycle/CheckCommitReadiness: /Channel/Application/Writers
+        _lifecycle/CommitChaincodeDefinition: /Channel/Application/Writers
+        _lifecycle/QueryChaincodeDefinition: /Channel/Application/Readers
+        _lifecycle/QueryChaincodeDefinitions: /Channel/Application/Readers
+        lscc/ChaincodeExists: /Channel/Application/Readers
+        lscc/GetDeploymentSpec: /Channel/Application/Readers
+        lscc/GetChaincodeData: /Channel/Application/Readers
+        peerOrgDefaultslscc/GetInstantiatedChaincodes: /Channel/Application/Readers
+        qscc/GetChainInfo: /Channel/Application/Readers
+        qscc/GetBlockByNumber: /Channel/Application/Readers
+        qscc/GetBlockByHash: /Channel/Application/Readers
+        qscc/GetTransactionByID: /Channel/Application/Readers
+        qscc/GetBlockByTxID: /Channel/Application/Readers
+        cscc/GetConfigBlock: /Channel/Application/Readers
+        cscc/GetChannelConfig: /Channel/Application/Readers
+        peer/Propose: /Channel/Application/Writers
+        peer/ChaincodeToChaincode: /Channel/Application/Writers
+        event/Block: /Channel/Application/Readers
+        event/FilteredBlock: /Channel/Application/Readers
+      Policies:
+        Readers:
+          Type: ImplicitMeta
+          Rule: ANY Readers
+        Writers:
+          Type: ImplicitMeta
+          Rule: ANY Writers
+        Admins:
+          Type: ImplicitMeta
+          Rule: MAJORITY Admins
+        LifecycleEndorsement:
+          Type: ImplicitMeta
+          Rule: ANY Endorsement
+        Endorsement:
+          Type: ImplicitMeta
+          Rule: ANY Endorsement
+      Capabilities:
+        V2_0: true
+      Organizations:
+        - Name: btpMSP
+          ID: btpMSP
+          MSPDir: crypto-config/peerOrganizations/btp.example.com/msp
+          Policies:
+            Readers:
+              Type: Signature
+              Rule: OR("btpMSP.member")
+            Writers:
+              Type: Signature
+              Rule: OR("btpMSP.member")
+            Admins:
+              Type: Signature
+              Rule: OR("btpMSP.admin")
+            Endorsement:
+              Type: Signature
+              Rule: OR("btpMSP.peer")
+          OrdererEndpoints:
+            - orderer0.example.com:7050
+          AnchorPeers:
+            - Host: peer0.btp.example.com
+              Port: 7051

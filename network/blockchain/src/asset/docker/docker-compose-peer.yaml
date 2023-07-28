@@ -1,0 +1,64 @@
+version: "3"
+networks:
+  default:
+    external:
+      name: btp
+services:
+  peer0.btp.example.com:
+    restart: always
+    container_name: peer0.btp.example.com
+    image: docker.io/hyperledger/fabric-peer:2.2.2
+    environment:
+      - FABRIC_CFG_PATH:/etc/hyperledger/fabric
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+    working_dir: /etc/hyperledger/fabric
+    command: peer node start
+    ports:
+      - 7051:7051
+    volumes:
+      - >-
+        ../config/peer.yaml:/etc/hyperledger/fabric/core.yaml
+      - >-
+        ../artifacts/crypto-config/peerOrganizations/btp.example.com/peers/peer0.btp.example.com/msp:/etc/hyperledger/fabric/msp
+      - >-
+        ../artifacts/crypto-config/peerOrganizations/btp.example.com/peers/peer0.btp.example.com/tls:/etc/hyperledger/fabric/tls
+      - ../artifacts/block:/etc/hyperledger/fabric/block
+      - ../artifacts/tx:/etc/hyperledger/fabric/tx
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    depends_on:
+      - couchdb.peer0.btp.example.com
+      - cli.peer0.btp.example.com
+  couchdb.peer0.btp.example.com:
+    restart: always
+    container_name: couchdb.peer0.btp.example.com
+    image: docker.io/hyperledger/fabric-couchdb:0.4.22
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 5984:5984
+  cli.peer0.btp.example.com:
+    restart: always
+    container_name: cli.peer0.btp.example.com
+    image: docker.io/hyperledger/fabric-tools:2.2.2
+    environment:
+      - FABRIC_CFG_PATH:/etc/hyperledger/fabric
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_LEDGER_STATE_STATEDATABASE=goleveldb
+    working_dir: /etc/hyperledger/fabric
+    command: sh -c 'peer node start'
+    volumes:
+      - >-
+        ../config/peer.yaml:/etc/hyperledger/fabric/core.yaml
+      - >-
+        ../artifacts/crypto-config/peerOrganizations/btp.example.com/users/Admin@btp.example.com/msp:/etc/hyperledger/fabric/msp
+      - >-
+        ../artifacts/crypto-config/peerOrganizations/btp.example.com/peers/peer0.btp.example.com/tls:/etc/hyperledger/fabric/tls
+      - >-
+        ../artifacts/crypto-config/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem:/etc/hyperledger/fabric/orderer-tls/tlsca.example.com-cert.pem
+      - ../artifacts/block:/etc/hyperledger/fabric/block
+      - ../artifacts/tx:/etc/hyperledger/fabric/tx
+      - ../chaincodes:/etc/hyperledger/fabric/chaincodes
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - >-
+        ../artifacts/crypto-config/peerOrganizations/btp.example.com/tlsca/tlsca.btp.example.com-cert.pem:/etc/hyperledger/fabric/btp.example.com-tls/tlsca.btp.example.com-cert.pem

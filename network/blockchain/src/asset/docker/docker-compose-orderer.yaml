@@ -1,0 +1,28 @@
+version: "3"
+networks:
+  default:
+    external:
+      name: btp
+services:
+  orderer0.example.com:
+    restart: always
+    container_name: orderer0.example.com
+    image: docker.io/hyperledger/fabric-orderer:2.2.2
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=info
+    working_dir: /etc/hyperledger/orderer
+    command: orderer
+    ports:
+      - 7050:7050
+    volumes:
+      - ../config/orderer.yaml:/etc/hyperledger/orderer/orderer.yaml
+      - ../artifacts/block:/etc/hyperledger/orderer/block
+      - >-
+        ../artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp:/etc/hyperledger/orderer/crypto-config/msp
+      - >-
+        ../artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls:/etc/hyperledger/orderer/crypto-config/tls
+      - >-
+        ../artifacts/crypto-config/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem:/etc/hyperledger/orderer/crypto-config/tlsca/tlsca.orderer-cert.pem
+      - >-
+        ../artifacts/crypto-config/peerOrganizations/btp.example.com/tlsca/tlsca.btp.example.com-cert.pem:/etc/hyperledger/orderer/crypto-config/tlsca/tlsca.btp.example.com-cert.pem

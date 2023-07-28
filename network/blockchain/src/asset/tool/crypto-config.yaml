@@ -1,0 +1,22 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: example.com
+    Template:
+      Count: 3
+PeerOrgs:
+  - Name: btp
+    Domain: btp.example.com
+    EnableNodeOUs: true
+    CA:
+      Hostname: ca
+      Country: KR
+      OrganizationalUnit: btp
+    Specs:
+      - Hostname: peer0
+        CommonName: peer0.btp.example.com
+        SANS:
+          - peer0.btp.example.com
+          - localhost
+          - 127.0.0.1
+    Users:
+      Count: 1

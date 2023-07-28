@@ -1,0 +1,62 @@
+{
+  "name": "btp",
+  "version": "1.0",
+  "x-type": "hlfv2",
+  "description": "btp project",
+  "channels": {
+    "tester": {
+      "orderers": ["orderer0.example.com"],
+      "peers": ["peer0.btp.example.com"]
+    }
+  },
+  "organizations": {
+    "btp.example.com": {
+      "mspid": "btpMSP",
+      "adminPrivateKey": {
+        "path": "../network/blockchain/build/asset/artifacts/crypto-config/peerOrganizations/btp.example.com/users/Admin@btp.example.com/msp/keystore/priv_sk"
+      },
+      "peers": ["peer0.btp.example.com"],
+      "signedCert": {
+        "path": "../network/blockchain/build/asset/artifacts/crypto-config/peerOrganizations/btp.example.com/users/Admin@btp.example.com/msp/signcerts/Admin@btp.example.com-cert.pem"
+      }
+    }
+  },
+  "orderers": {
+    "orderer0.example.com": {
+      "url": "grpcs://localhost:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer0.example.com"
+      },
+      "tlsCACerts": {
+        "path": "../network/blockchain/build/asset/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt"
+      }
+    }
+  },
+  "peers": {
+    "peer0.btp.example.com": {
+      "url": "grpcs://localhost:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.btp.example.com"
+      },
+      "tlsCACerts": {
+        "path": "../network/blockchain/build/asset/artifacts/crypto-config/peerOrganizations/btp.example.com/peers/peer0.btp.example.com/tls/ca.crt"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.btp.example.com": {
+      "url": "https://localhost:7054",
+      "httpOptions": {
+        "verify": false
+      },
+      "tlsCACerts": {
+        "path": "../network/blockchain/build/asset/artifacts/crypto-config/peerOrganizations/btp.example.com/ca/ca.btp.example.com-cert.pem"
+      },
+      "caName": "ca.btp.example.com",
+      "registrar": {
+        "enrollID": "admin",
+        "enrollSecret": "adminpw"
+      }
+    }
+  }
+}
