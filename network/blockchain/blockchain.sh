@@ -173,8 +173,8 @@ function blockchain_clean {
 function blockchain_build {
     mkdir -p $bdir && \
     cp -rf $sdir/asset $bdir/ && \
-    cp -rf $sdir/../../../chaincode $bdir/asset && \
-    mv $bdir/asset/chaincode $bdir/asset/chaincodes
+    cp -rf $sdir/../../../chaincode-go $bdir/asset && \
+    mv $bdir/asset/chaincode-go $bdir/asset/chaincodes
     mkdir -p $bdir/asset/artifacts/block && \
     mkdir -p $bdir/asset/artifacts/tx >> /dev/null 2>&1
     blockchain_build_cryptogen
